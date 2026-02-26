@@ -1,0 +1,67 @@
+habit-tracker-mern/
+│
+├── client/                         # React Frontend
+│   ├── public/
+│   │   └── index.html
+│   │
+│   └── src/
+│       ├── assets/                # icons, images
+│       │
+│       ├── components/
+│       │   ├── HabitCard.jsx
+│       │   ├── HabitForm.jsx
+│       │   ├── HabitList.jsx
+│       │   ├── ProgressBar.jsx
+│       │   └── Navbar.jsx
+│       │
+│       ├── pages/
+│       │   ├── Dashboard.jsx
+│       │   ├── Login.jsx          # (optional)
+│       │   └── Signup.jsx         # (optional)
+│       │
+│       ├── services/              # API calls
+│       │   ├── habitService.js
+│       │   └── authService.js
+│       │
+│       ├── context/               # global state
+│       │   ├── HabitContext.jsx
+│       │   └── AuthContext.jsx
+│       │
+│       ├── utils/
+│       │   └── dateUtils.js       # streak calculation
+│       │
+│       ├── App.jsx
+│       ├── main.jsx
+│       └── index.css
+│
+│
+├── server/                        # Express Backend
+│   ├── config/
+│   │   └── db.js
+│   │
+│   ├── models/
+│   │   ├── User.js                # if auth added
+│   │   └── Habit.js
+│   │
+│   ├── controllers/
+│   │   ├── habitController.js
+│   │   └── authController.js
+│   │
+│   ├── routes/
+│   │   ├── habitRoutes.js
+│   │   └── authRoutes.js
+│   │
+│   ├── middleware/
+│   │   └── authMiddleware.js
+│   │
+│   ├── utils/
+│   │   └── streakCalculator.js
+│   │
+│   ├── .env
+│   ├── server.js
+│   └── package.json
+│
+│
+├── .gitignore
+├── package.json
+└── README.md
