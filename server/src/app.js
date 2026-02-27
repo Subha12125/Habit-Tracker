@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser")
-
+const authRoute = require("./routes/authRoute")
 
 const app = express();
 
@@ -16,8 +16,7 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"))
 app.use(cookieParser())
 
-app.get('/', (req, res) => {
-    res.send('Hello subha')
-})
+app.use("/api/auth", authRoute)
+
 
 module.exports = { app }
