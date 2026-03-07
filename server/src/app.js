@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser")
 const authRoute = require("./routes/authRoute")
+const habitRoute = require("./routes/habitRoute")
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 app.use("/api/auth", authRoute)
+app.use("/api/v1/habits", habitRoute)
 
 
 module.exports = { app }
