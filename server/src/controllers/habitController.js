@@ -92,4 +92,53 @@ const deleteHabit = asyncHandler(async(req, res)=>{
 });
 
 
-module.exports = { createHabit, getAllHabits, deleteHabit, logHabitProgress };
+//! Get habit Stats
+const getHabitStats = asyncHandler(async(req, res)=> {
+    const { habitId } = req.params;
+    const habit = await Habit.findById(habitId);
+
+    if( !habit ) {
+        throw new ApiError(404, "Habit not found");
+    }
+    // Filter Completed Logs
+    const completedLogs = habit.log.filter(log => log.status === "completed");
+    const completedCount = completedLogs.length;
+
+    // Calculate current percentage of completion based on frequency
+    const startDate = new Date(habit.createdAt).setHours(0,0,0,0);
+    const today = new Date().setHours(0,0,0,0);
+    const totalDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24)) + 1; // Include today
+    const successPercentage = totalDays > 0 ? ((completedCount / totalDays) * 100).toFixed(2) : "0.00";
+
+    // Calculate longest streak
+    const sortedDates = [...new Set(completedLogs
+        .map(entry => new Date(entry.date).setHours(0, 0, 0, 0)))]
+        .sort((a, b) => a - b);
+
+    let longestStreak = 0;
+    let tempStreak = 0;
+    let lastDate = null;
+
+    for (let date of sortedDates) {
+        if (lastDate === null || date === lastDate + 86400000) {
+            tempStreak++;
+        } else {
+            tempStreak = 1;
+        }
+        longestStreak = Math.max(longestStreak, tempStreak);
+        lastDate = date;
+    }
+
+   const stats = {
+        currentStreak: streakCalculator(habit.log),
+        longestStreak,
+        totalDays,
+        successPercentage: `${successPercentage}%`,
+        totalLogs: habit.log.length
+    };
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, stats, "Habit statistics fetched successfully"));
+});
+module.exports = { createHabit, getAllHabits, deleteHabit, logHabitProgress, getHabitStats };
