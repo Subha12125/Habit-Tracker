@@ -32,7 +32,23 @@ const HabitSchema = new mongoose.Schema({
     updatedAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    log: [
+        {
+            date: {
+                type: Date,
+                required: true,
+                default: Date.now
+            },
+            status: {
+                type: String,
+                enum: ["completed", "skipped", "missed"],
+                required: true,
+                default: "completed"
+            },
+            notes: String
+        }
+    ]
 }, { timestamps: true })
 
 module.exports = mongoose.model("Habit", HabitSchema)

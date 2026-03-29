@@ -1,6 +1,6 @@
 // In c:\Full Stack Projects\HabitTracker\server\src\routes\habitRoute.js
 const express = require("express");
-const { createHabit, getAllHabits, deleteHabit } = require("../controllers/habitController");
+const { createHabit, getAllHabits, deleteHabit, logHabitProgress } = require("../controllers/habitController");
 const { verifyJWT } = require("../middlewares/authMiddleware");
 
 const router = express.Router();
@@ -10,5 +10,6 @@ router.use(verifyJWT);
 
 router.route("/").post(createHabit).get(getAllHabits);
 router.route("/:habitId").delete(deleteHabit);
+router.route("/:habitId/log").post(logHabitProgress);
 
 module.exports = router;
